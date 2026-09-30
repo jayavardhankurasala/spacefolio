@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Creative Technologist</title>
+  <meta name="description" content="Portfolio of a Principal Frontend Architect and Creative Technologist.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="landing-active">
+
+  <!-- ══════════════ LOADER ══════════════ -->
+  <div id="loader" class="loader-overlay">
+    <div class="loader-content">
+      <div class="loader-orbit">
+        <div class="orbit-ring"></div>
+        <div class="orbit-core"></div>
+      </div>
+      <div class="loader-label">INITIALISING NEURAL NET</div>
+      <div class="progress-bar-track">
+        <div id="progressBar" class="progress-bar-fill"></div>
+      </div>
+      <div class="loader-meta">
+        <span id="loadPercent">0%</span>
+        <span id="frameStats">Loading cosmic assets…</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ CANVAS ══════════════ -->
+  <div class="viewport-fixed" id="canvasWrap">
+    <canvas id="sequenceCanvas"></canvas>
+    <div class="vignette-overlay" id="vignette"></div>
+    <div id="warpFlash" class="warp-flash"></div>
+  </div>
+
+  <!-- ══════════════ LANDING ══════════════ -->
+  <section id="landingOverlay" class="landing-overlay" aria-label="Portfolio Entry">
+    <div class="land-topbar">
+      <div class="land-logo">
+        <span class="logo-dot"></span>
+        <span class="logo-text" id="conf-logo">PORTFOLIO</span>
+      </div>
+      <nav class="land-nav">
+        <a href="#about"   class="land-nav-link">About</a>
+        <a href="#work"    class="land-nav-link">Work</a>
+        <a href="#contact" class="land-nav-link">Contact</a>
+      </nav>
+    </div>
+
+    <div class="land-hero">
+      <p class="land-eyebrow">COMPUTER SCIENCE ENGINEERING STUDENT</p>
+      <h1 class="land-name" id="conf-name-landing">Jayavardhan<br>Kurasala</h1>
+      <p class="land-tagline">Architecting immersive, high-performance digital experiences<br>at the event horizon of design and physics.</p>
+      <div class="land-cta-row">
+        <button id="btnExplore" class="btn-enter magnetic-btn" aria-label="Enter Portfolio" disabled>
+          ENTER PORTFOLIO
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+      </div>
+      <p class="land-hint">System standing by. Waiting for telemetry...</p>
+    </div>
+
+    <div class="land-foot">
+      <span class="land-foot-item">Based in — <strong id="conf-location">Earth</strong></span>
+      <span class="land-foot-sep">·</span>
+      <span class="land-foot-item">Systems Online</span>
+      <span class="land-foot-sep">·</span>
+      <span class="land-foot-item">2024</span>
+    </div>
+  </section>
+
+  <!-- ══════════════ PORTFOLIO SHELL ══════════════ -->
+  <div id="portfolioShell" class="portfolio-shell hidden">
+
+    <!-- Fixed Nav -->
+    <header id="siteNav" class="site-nav">
+      <div class="nav-inner">
+        <a href="#hero" class="nav-logo" id="conf-logo-short">CT</a>
+        <nav class="nav-links">
+          <a href="#about"   class="nav-link">About</a>
+          <a href="#work"    class="nav-link">Work</a>
+          <a href="#skills"  class="nav-link">Skills</a>
+          <a href="#contact" class="nav-link">Contact</a>
+          <button id="btnAudioToggle" class="nav-audio-btn" aria-label="Toggle Audio Reactive Mode">
+            <svg id="iconAudioMute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <line x1="23" y1="9" x2="17" y2="15"/>
+              <line x1="17" y1="9" x2="23" y2="15"/>
+            </svg>
+            <svg id="iconAudioOn" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </button>
+        </nav>
+        <a href="#contact" class="nav-cta magnetic-btn">Engage</a>
+        <button class="nav-burger" id="navBurger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mobile-menu glass-panel">
+      <a href="#about"   class="mm-link">About</a>
+      <a href="#work"    class="mm-link">Work</a>
+      <a href="#skills"  class="mm-link">Skills</a>
+      <a href="#contact" class="mm-link">Contact</a>
+    </div>
+
+    <!-- ────── HERO ────── -->
+    <section id="hero" class="section sec-hero">
+      <div class="hero-inner">
+        <span class="pill-tag">System Calibrated</span>
+        <h1 class="hero-name" id="conf-name-hero">Jayavardhan Kurasala</h1>
+        <p class="hero-role">Computer Science Engineering Student &amp; Creative Technologist</p>
+        <div class="hero-cta-row">
+          <a href="#work"    class="btn-primary magnetic-btn">View Telemetry</a>
+          <a href="#contact" class="btn-outline magnetic-btn">Establish Uplink</a>
+        </div>
+        <div class="hero-scroll-hint">
+          <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+          <span>Descend to orbit</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────── ABOUT ────── -->
+    <section id="about" class="section sec-about">
+      <div class="section-inner">
+        <div class="about-grid">
+          <div class="about-text glass-panel reveal-left">
+            <p class="sec-label">THE ARCHITECT</p>
+            <h2 class="sec-heading">Engineered for<br>Absolute Immersion</h2>
+            <p class="about-body">I design and architect digital systems at the intersection of high-fidelity aesthetics and extreme performance. Obsessed with the physics of user experience, I build interfaces that don't just react—they breathe. My work bridges the gap between raw computational power and seamless, cinematic storytelling.</p>
+            <p class="about-body">From custom WebGL rendering pipelines to inertial scroll physics, I treat code as a medium for crafting gravity. Every animation is mathematically tuned; every component is built for scale and efficiency.</p>
+            <div class="about-stats">
+              <div class="stat-box"><span class="stat-num">60</span><span class="stat-lbl">FPS Locked</span></div>
+              <div class="stat-box"><span class="stat-num">O(1)</span><span class="stat-lbl">Complexity</span></div>
+              <div class="stat-box"><span class="stat-num">∞</span><span class="stat-lbl">Scalability</span></div>
+            </div>
+            <a href="#contact" class="btn-primary magnetic-btn">Initialize Sequence</a>
+          </div>
+          <div class="about-visual reveal-right">
+            <div class="avatar-frame glass-panel">
+              <img src="ezgif-7ea5ecfd07305554-jpg/mypic.jpeg" alt="Jayavardhan Kurasala" style="z-index: 10; position: relative;">
+              <div class="avatar-glow"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────── WORK ────── -->
+    <section id="work" class="section sec-work">
+      <div class="section-inner">
+        <div class="sec-header reveal-up">
+          <p class="sec-label">PROJECT MATRIX</p>
+          <h2 class="sec-heading">Mission Logs</h2>
+          <p class="sec-sub">Declassified architectural deep-dives.</p>
+        </div>
+        <div class="projects-grid">
+
+          <article class="project-card glass-panel reveal-up" style="--delay:.05s">
+            <div class="project-meta">
+              <h3 class="project-title">MediKiosk</h3>
+              <p class="project-subtitle">Automated Healthcare Terminal</p>
+              
+              <div class="case-study-section">
+                <h4>The Challenge</h4>
+                <p>Streamlining patient check-ins and preliminary diagnostics in high-traffic hospital environments to reduce wait times and staff load.</p>
+              </div>
+
+              <div class="case-study-section">
+                <h4>Architecture &amp; Stack</h4>
+                <p>IoT Sensors, Python, React Frontend, and secure cloud backend for real-time patient data synchronization.</p>
+              </div>
+
+              <div class="case-study-section">
+                <h4>The Impact</h4>
+                <p>Awarded 2nd Prize (₹4000) at Hack Over flow-2K26. Demonstrated significant potential to cut administrative overhead in clinical settings.</p>
+              </div>
+
+              <button class="project-cta magnetic-btn" onclick="openMediModal()">Explore Project &amp; Architecture →</button>
+            </div>
+          </article>
+
+          <article class="project-card glass-panel reveal-up" style="--delay:.12s">
+            <div class="project-meta">
+              <h3 class="project-title">Kochi Metro TIPS</h3>
+              <p class="project-subtitle">Transit Information &amp; Planning System</p>
+              
+              <div class="case-study-section">
+                <h4>The Challenge</h4>
+                <p>Creating an intuitive, scalable platform for thousands of daily commuters to seamlessly navigate the Kochi Metro network with real-time data.</p>
+              </div>
+
+              <div class="case-study-section">
+                <h4>Architecture &amp; Stack</h4>
+                <p>Modern frontend frameworks, responsive design principles, and RESTful APIs for live transit tracking and route optimization.</p>
+              </div>
+
+              <div class="case-study-section">
+                <h4>The Impact</h4>
+                <p>Streamlined the commuter experience, reducing average route-planning time and increasing overall rider satisfaction.</p>
+              </div>
+
+              <a href="#" class="project-cta magnetic-btn">Review Logs →</a>
+            </div>
+          </article>
+
+          <article class="project-card glass-panel reveal-up" style="--delay:.19s">
+            <div class="project-meta">
+              <h3 class="project-title">Jarvis Assistant</h3>
+              <p class="project-subtitle">Voice-Activated AI Companion</p>
+              
+              <div class="case-study-section">
+                <h4>The Challenge</h4>
+                <p>Building a context-aware, low-latency personal assistant capable of executing complex desktop and web automation tasks via voice.</p>
+              </div>
+
+              <div class="case-study-section">
+                <h4>Architecture &amp; Stack</h4>
+                <p>Python, SpeechRecognition, PyAudio, and OpenAI integrations, packaged into a lightweight background daemon.</p>
+              </div>
+
+              <div class="case-study-section">
+                <h4>The Impact</h4>
+                <p>Automated daily repetitive workflows, bridging the gap between natural language commands and OS-level execution.</p>
+              </div>
+
+              <a href="#" class="project-cta magnetic-btn">Explore Codebase →</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ────── SKILLS ────── -->
+    <section id="skills" class="section sec-skills">
+      <div class="section-inner">
+        <div class="sec-header reveal-up">
+          <p class="sec-label">SYSTEM CAPABILITIES</p>
+          <h2 class="sec-heading">Tech Stack</h2>
+        </div>
+        <div class="skills-columns">
+          <div class="skill-group glass-panel reveal-up" style="--delay:.05s">
+            <h3 class="skill-group-title">Engine</h3>
+            <ul class="skill-list">
+              <li class="skill-item"><span class="skill-dot"></span>WebGL &amp; GLSL</li>
+              <li class="skill-item"><span class="skill-dot"></span>Three.js</li>
+              <li class="skill-item"><span class="skill-dot"></span>HTML5 Canvas</li>
+              <li class="skill-item"><span class="skill-dot"></span>WebAssembly</li>
+              <li class="skill-item"><span class="skill-dot"></span>Web Audio API</li>
+            </ul>
+          </div>
+          <div class="skill-group glass-panel reveal-up" style="--delay:.1s">
+            <h3 class="skill-group-title">Frontend</h3>
+            <ul class="skill-list">
+              <li class="skill-item"><span class="skill-dot"></span>TypeScript</li>
+              <li class="skill-item"><span class="skill-dot"></span>React / Next.js</li>
+              <li class="skill-item"><span class="skill-dot"></span>Vanilla JS Physics</li>
+              <li class="skill-item"><span class="skill-dot"></span>CSS Architecture</li>
+              <li class="skill-item"><span class="skill-dot"></span>Framer Motion</li>
+            </ul>
+          </div>
+          <div class="skill-group glass-panel reveal-up" style="--delay:.15s">
+            <h3 class="skill-group-title">Backend</h3>
+            <ul class="skill-list">
+              <li class="skill-item"><span class="skill-dot"></span>Node.js</li>
+              <li class="skill-item"><span class="skill-dot"></span>Rust</li>
+              <li class="skill-item"><span class="skill-dot"></span>WebSockets</li>
+              <li class="skill-item"><span class="skill-dot"></span>PostgreSQL</li>
+              <li class="skill-item"><span class="skill-dot"></span>Redis</li>
+            </ul>
+          </div>
+          <div class="skill-group glass-panel reveal-up" style="--delay:.2s">
+            <h3 class="skill-group-title">Design</h3>
+            <ul class="skill-list">
+              <li class="skill-item"><span class="skill-dot"></span>Figma</li>
+              <li class="skill-item"><span class="skill-dot"></span>UI/UX Physics</li>
+              <li class="skill-item"><span class="skill-dot"></span>Space Morphism</li>
+              <li class="skill-item"><span class="skill-dot"></span>Typography</li>
+              <li class="skill-item"><span class="skill-dot"></span>Interaction Design</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tech-strip reveal-up">
+          <span class="tech-badge">Optics</span>
+          <span class="tech-badge">Kinetics</span>
+          <span class="tech-badge">Telemetry</span>
+          <span class="tech-badge">Systems</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────── CONTACT ────── -->
+    <section id="contact" class="section sec-contact">
+      <div class="section-inner">
+        <div class="contact-grid">
+          <div class="contact-copy glass-panel reveal-left">
+            <p class="sec-label">COMMUNICATIONS</p>
+            <h2 class="sec-heading">Open a Channel</h2>
+            <p class="contact-body">Whether you need to architect a high-performance system, design a cinematic experience, or just want to talk physics — my comms array is active.</p>
+            <a href="mailto:sysadmin@network.local" class="contact-email magnetic-btn" id="conf-email-link">
+              <span id="conf-email-text">sysadmin@network.local</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+            <div class="social-links">
+              <a href="#" class="social-link magnetic-btn" aria-label="GitHub" id="conf-github">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/></svg>
+              </a>
+              <a href="#" class="social-link magnetic-btn" aria-label="LinkedIn" id="conf-linkedin">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              <a href="#" class="social-link magnetic-btn" aria-label="Twitter" id="conf-twitter">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="contact-form-wrap glass-panel reveal-right">
+            <div style="text-align:center; padding: 20px;">
+              <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; margin-bottom: 20px;">Direct Comm Link</h3>
+              <p style="color: rgba(255,255,255,0.7); margin-bottom: 30px; font-size: 1.05rem;">Bypass the standard forms. Send a direct, encrypted payload to my personal communicator.</p>
+              <a href="https://wa.me/917815902369?text=Hi%20Jayavardhan,%20I%20just%20viewed%20your%20Space%20Morphism%20portfolio!" target="_blank" rel="noopener noreferrer" class="btn-primary magnetic-btn" style="text-decoration: none; display: inline-flex; width: 100%; padding: 20px; font-size: 1rem;">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="margin-right: 12px;">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+                </svg>
+                Connect on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────── FOOTER ────── -->
+    <footer class="site-footer glass-panel">
+      <div class="footer-inner">
+        <span class="footer-copy">© 2024 <span id="conf-footer-name">Your Name</span>. Orbit Established.</span>
+        <div class="footer-links">
+          <a href="#hero"    class="footer-link">Ascend</a>
+          <a href="#about"   class="footer-link">About</a>
+          <a href="#work"    class="footer-link">Work</a>
+          <a href="#contact" class="footer-link">Contact</a>
+        </div>
+        <span class="footer-made">Forged in HTML5 Canvas</span>
+      </div>
+    </footer>
+
+  </div><!-- /portfolioShell -->
+
+  <!-- ────── MEDIKIOSK MODAL ────── -->
+  <div id="mediModal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel">
+      <button class="modal-close" onclick="closeMediModal()">×</button>
+      <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2rem; margin-bottom: 24px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">MediKiosk Architecture &amp; Review</h2>
+      
+      <div class="modal-grid">
+        <div>
+          <h3 style="margin-bottom: 12px; color: var(--accent2);">System Architecture</h3>
+          <p style="color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 24px;">
+            MediKiosk employs a decentralized edge-computing architecture. Local terminals interface with biometric and vital-sign sensors via Python scripts. Data is encrypted and transmitted securely to a cloud-hosted backend, where it is processed and rendered instantly on a React-based clinical dashboard.
+          </p>
+          <a href="ezgif-7ea5ecfd07305554-jpg/medikiosk-presentation.pdf" target="_blank" class="btn-primary magnetic-btn" style="display:inline-block; margin-bottom: 32px;">View Presentation (PDF)</a>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div>
+            <h4 style="margin-bottom: 8px;">2nd Prize - Hack Over flow-2K26</h4>
+            <img src="ezgif-7ea5ecfd07305554-jpg/certificate.jpg" alt="2nd Prize Certificate" style="width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
+          </div>
+          <div>
+            <h4 style="margin-bottom: 8px;">Team Photo</h4>
+            <img src="ezgif-7ea5ecfd07305554-jpg/group-photo.jpg" alt="Team Photo" style="width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    function openMediModal() {
+      document.getElementById('mediModal').classList.remove('hidden');
+      document.getElementById('mediModal').classList.add('visible');
+    }
+    function closeMediModal() {
+      document.getElementById('mediModal').classList.remove('visible');
+      document.getElementById('mediModal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
