@@ -2,16 +2,21 @@
 
 import { socials } from "@/data/socials";
 import GlassCard from "@/components/ui/GlassCard";
-import { Mail, MessageSquare, Send } from "lucide-react";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { Mail, MessageSquare, Send, Phone } from "lucide-react";
+import { FaLinkedin, FaGithub, FaPhone } from "react-icons/fa";
+import { SiGmail, SiLeetcode, SiGeeksforgeeks, SiCodechef } from "react-icons/si";
 
 export default function ContactSection() {
   const getIcon = (platform: string) => {
     switch(platform.toLowerCase()) {
       case 'github': return <FaGithub className="w-5 h-5" />;
       case 'linkedin': return <FaLinkedin className="w-5 h-5" />;
-      case 'email': return <Mail className="w-5 h-5" />;
-      case 'whatsapp': return <MessageSquare className="w-5 h-5" />;
+      case 'email': return <SiGmail className="w-5 h-5 text-red-500" />;
+      case 'whatsapp': return <MessageSquare className="w-5 h-5 text-green-500" />;
+      case 'phone': return <FaPhone className="w-4 h-4" />;
+      case 'leetcode': return <SiLeetcode className="w-5 h-5 text-yellow-500" />;
+      case 'geeksforgeeks': return <SiGeeksforgeeks className="w-5 h-5 text-green-600" />;
+      case 'codechef': return <SiCodechef className="w-5 h-5" />;
       default: return <Mail className="w-5 h-5" />;
     }
   };

@@ -25,23 +25,25 @@ export const socials: SocialLink[] = [
     platform: "WhatsApp",
     url: "https://wa.me/917815902369?text=Hi%20Jayavardhan",
     username: "+91 7815902369"
-  }
-];
-
-export const codingProfiles: SocialLink[] = [
+  },
+  {
+    platform: "Phone",
+    url: "tel:+917815902369",
+    username: "+91 7815902369"
+  },
   {
     platform: "LeetCode",
-    url: "#",
-    username: "jayavardhan"
+    url: "https://leetcode.com/u/jayavardhan_k/",
+    username: "jayavardhan_k"
   },
   {
     platform: "CodeChef",
-    url: "#",
-    username: "jayavardhan"
+    url: "https://www.codechef.com/users/jayavardhan_k",
+    username: "jayavardhan_k"
   },
   {
     platform: "GeeksforGeeks",
-    url: "#",
-    username: "jayavardhan"
+    url: "https://auth.geeksforgeeks.org/user/jayavardhan_k",
+    username: "jayavardhan_k"
   }
 ];
