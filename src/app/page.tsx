@@ -3,6 +3,12 @@
 import { useState } from 'react';
 import CinematicCanvas from '@/components/3d/CinematicCanvas';
 import LandingOverlay from '@/components/layout/LandingOverlay';
+import AboutSection from '@/components/sections/AboutSection';
+import SkillsSection from '@/components/sections/SkillsSection';
+import ExperienceSection from '@/components/sections/ExperienceSection';
+import ProjectsSection from '@/components/sections/ProjectsSection';
+import ContactSection from '@/components/sections/ContactSection';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -56,14 +62,18 @@ export default function Home() {
           hasBreached ? 'opacity-100' : 'opacity-0 pointer-events-none h-0 overflow-hidden'
         }`}
       >
-        <div className="min-h-[300vh]">
-          {/* Scrollable content will go here in Phase 5 */}
-          <div className="h-screen flex items-center justify-center">
-            <div className="glass-panel p-12 max-w-2xl text-center rounded-sm">
-              <h2 className="sec-heading text-3xl mb-4 tracking-widest text-cyan-400">PORTFOLIO SHELL ACTIVE</h2>
-              <p className="text-white/70">The cinematic engine has successfully transitioned. Scrolling content sections will be mounted here in Phase 5.</p>
-            </div>
-          </div>
+        <div className="pt-[100vh]">
+          {/* We add top padding equivalent to 100vh so the first section starts after the user scrolls down, moving the landing image naturally up via parallax (CinematicCanvas handles the bg image transition). */}
+          
+          <ScrollReveal delay={0.2}><AboutSection /></ScrollReveal>
+          <ScrollReveal delay={0.1}><SkillsSection /></ScrollReveal>
+          <ScrollReveal delay={0.1}><ExperienceSection /></ScrollReveal>
+          <ScrollReveal delay={0.1}><ProjectsSection /></ScrollReveal>
+          <ScrollReveal delay={0.1}><ContactSection /></ScrollReveal>
+          
+          <footer className="py-8 text-center text-white/30 text-sm font-mono tracking-widest border-t border-white/5 mt-24">
+            &copy; {new Date().getFullYear()} JAYAVARDHAN KURASALA. ALL SYSTEMS NOMINAL.
+          </footer>
         </div>
       </div>
     </main>
