@@ -44,7 +44,13 @@ function loadImg(url) {
       document.getElementById('progressBar').style.width = (loadedCount / totalAssets) * 100 + '%';
       resolve(img);
     };
-    img.onerror = () => resolve(null);
+    img.onerror = () => {
+      console.error('Failed to load image:', url);
+      loadedCount++;
+      document.getElementById('loadPercent').textContent = Math.round((loadedCount / totalAssets) * 100) + '%';
+      document.getElementById('progressBar').style.width = (loadedCount / totalAssets) * 100 + '%';
+      resolve(null);
+    };
     img.src = url;
   });
 }
@@ -328,17 +334,17 @@ window.addEventListener('scroll', () => {
  */
 function initUI() {
   // Populate config
-  document.getElementById('conf-logo').textContent = CONFIG.shortName || "PORTFOLIO";
-  document.getElementById('conf-logo-short').textContent = CONFIG.shortName || "PORTFOLIO";
-  document.getElementById('conf-name-landing').innerHTML = `${CONFIG.name.split(' ')[0]}<br>${CONFIG.name.split(' ')[1] || ''}`;
-  document.getElementById('conf-name-hero').textContent = CONFIG.name;
-  document.getElementById('conf-location').textContent = CONFIG.location;
-  document.getElementById('conf-email-link').href = `mailto:${CONFIG.email}`;
-  document.getElementById('conf-email-text').textContent = CONFIG.email;
-  document.getElementById('conf-github').href = CONFIG.githubUrl;
-  document.getElementById('conf-linkedin').href = CONFIG.linkedInUrl;
-  document.getElementById('conf-twitter').href = CONFIG.twitterUrl;
-  document.getElementById('conf-footer-name').textContent = CONFIG.name;
+  const logoEl = document.getElementById('conf-logo'); if (logoEl) logoEl.textContent = CONFIG.shortName || "PORTFOLIO";
+  const logoShortEl = document.getElementById('conf-logo-short'); if (logoShortEl) logoShortEl.textContent = CONFIG.shortName || "PORTFOLIO";
+  const nameLandingEl = document.getElementById('conf-name-landing'); if (nameLandingEl) nameLandingEl.innerHTML = `${CONFIG.name.split(' ')[0]}<br>${CONFIG.name.split(' ')[1] || ''}`;
+  const nameHeroEl = document.getElementById('conf-name-hero'); if (nameHeroEl) nameHeroEl.textContent = CONFIG.name;
+  const locEl = document.getElementById('conf-location'); if (locEl) locEl.textContent = CONFIG.location;
+  const emailLinkEl = document.getElementById('conf-email-link'); if (emailLinkEl) emailLinkEl.href = `mailto:${CONFIG.email}`;
+  const emailTextEl = document.getElementById('conf-email-text'); if (emailTextEl) emailTextEl.textContent = CONFIG.email;
+  const githubEl = document.getElementById('conf-github'); if (githubEl) githubEl.href = CONFIG.githubUrl;
+  const linkedinEl = document.getElementById('conf-linkedin'); if (linkedinEl) linkedinEl.href = CONFIG.linkedInUrl;
+  const twitterEl = document.getElementById('conf-twitter'); if (twitterEl) twitterEl.href = CONFIG.twitterUrl;
+  const footerNameEl = document.getElementById('conf-footer-name'); if (footerNameEl) footerNameEl.textContent = CONFIG.name;
 
   // Breach trigger
   const btnExplore = document.getElementById('btnExplore');
@@ -510,3 +516,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Space themes engagement ripple
+document.getElementById('landingOverlay').addEventListener('click', (e) => {
+  const ripple = document.createElement('div');
+  ripple.className = 'space-ripple';
+  const size = Math.max(window.innerWidth, window.innerHeight) * 0.15;
+  ripple.style.width = ripple.style.height = `${size}px`;
+  ripple.style.left = `${e.clientX - size/2}px`;
+  ripple.style.top = `${e.clientY - size/2}px`;
+  document.body.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 800);
+});
