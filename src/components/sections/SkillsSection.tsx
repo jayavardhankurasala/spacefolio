@@ -6,7 +6,7 @@ import {
   FaJava, FaPython, FaDatabase, FaHtml5, FaCss3Alt, FaReact, FaGitAlt, FaGithub, FaFigma, FaServer
 } from "react-icons/fa";
 import { 
-  SiJavascript, SiC, SiNextdotjs, SiStreamlit, SiVisualstudiocode, SiThreejs, SiWebgl, SiGreensock
+  SiJavascript, SiC, SiNextdotjs, SiStreamlit, SiThreedotjs, SiWebgl, SiGreensock
 } from "react-icons/si";
 import { 
   Code2, Cpu, Network, Layers, Layout, Server, Boxes, ShieldAlert
@@ -38,12 +38,12 @@ const iconMap: Record<string, { icon: any, color: string }> = {
   // Tools
   "Git": { icon: FaGitAlt, color: "#f05032" },
   "GitHub": { icon: FaGithub, color: "#ffffff" },
-  "VS Code": { icon: SiVisualstudiocode, color: "#007acc" },
+  "VS Code": { icon: Code2, color: "#007acc" },
   "Figma": { icon: FaFigma, color: "#f24e1e" },
   "APIs": { icon: Network, color: "#10b981" },
   
   // Exploring
-  "Three.js": { icon: SiThreejs, color: "#ffffff" },
+  "Three.js": { icon: SiThreedotjs, color: "#ffffff" },
   "WebGL": { icon: SiWebgl, color: "#990000" },
   "GSAP": { icon: SiGreensock, color: "#88ce02" }
 };

@@ -2,13 +2,14 @@
 
 import { socials } from "@/data/socials";
 import GlassCard from "@/components/ui/GlassCard";
-import { Mail, Github, Linkedin, MessageSquare, Send } from "lucide-react";
+import { Mail, MessageSquare, Send } from "lucide-react";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 export default function ContactSection() {
   const getIcon = (platform: string) => {
     switch(platform.toLowerCase()) {
-      case 'github': return <Github className="w-5 h-5" />;
-      case 'linkedin': return <Linkedin className="w-5 h-5" />;
+      case 'github': return <FaGithub className="w-5 h-5" />;
+      case 'linkedin': return <FaLinkedin className="w-5 h-5" />;
       case 'email': return <Mail className="w-5 h-5" />;
       case 'whatsapp': return <MessageSquare className="w-5 h-5" />;
       default: return <Mail className="w-5 h-5" />;

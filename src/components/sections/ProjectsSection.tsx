@@ -2,7 +2,8 @@
 
 import { projects } from "@/data/projects";
 import GlassCard from "@/components/ui/GlassCard";
-import { ExternalLink, Github, Trophy } from "lucide-react";
+import { ExternalLink, Trophy } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 
 export default function ProjectsSection() {
   return (
@@ -46,7 +47,7 @@ export default function ProjectsSection() {
                     <div className="flex gap-3">
                       {project.github && (
                         <a href={project.github} target="_blank" rel="noreferrer" className="text-white/50 hover:text-white transition-colors">
-                          <Github className="w-5 h-5" />
+                          <FaGithub className="w-5 h-5" />
                         </a>
                       )}
                       {project.demo && (
