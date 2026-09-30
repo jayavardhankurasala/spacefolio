@@ -110,5 +110,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Cosmic Scroll Server running at http://localhost:${PORT}`);
+  console.log(`Portfolio server running at http://localhost:${PORT}`);
 });

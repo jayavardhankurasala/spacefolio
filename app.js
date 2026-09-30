@@ -283,7 +283,7 @@ function render(time) {
     const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     
     // Inertial scroll lerp
-    currentScroll += (targetScroll - currentScroll) * 0.08;
+    currentScroll += (targetScroll - currentScroll) * 0.04;
     const scrollVelocity = Math.abs(targetScroll - currentScroll);
     
     // Chromatic warp based on velocity
