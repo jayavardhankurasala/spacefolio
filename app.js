@@ -4,7 +4,7 @@
  * ════════════════════════════════════════════════
  */
 const CONFIG = {
-  name: "JAYAVARDHAN KURASALA",
+  name: "Jayavardhan Kurasala",
   shortName: "JK",
   role: "Computer Science Student",
   location: "Tadepalligudem",
@@ -351,6 +351,8 @@ function initUI() {
   btnExplore.addEventListener('click', () => {
     isBreaching = true;
     breachStartTime = performance.now();
+    document.getElementById('landingOverlay').classList.add('exploring');
+    showEducation(0);
     btnExplore.style.opacity = '0';
     btnExplore.style.pointerEvents = 'none';
   });
@@ -473,7 +475,7 @@ async function bootstrap() {
 
   // Enable Entry
   const btnExplore = document.getElementById('btnExplore');
-  btnExplore.textContent = "ENTER PORTFOLIO";
+  btnExplore.textContent = "EXPLORE";
   btnExplore.removeAttribute('disabled');
   
   // Hide loader
@@ -496,6 +498,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!hasBreached) {
         isBreaching = true;
         hasBreached = true;
+        document.getElementById('landingOverlay').classList.add('exploring');
+        showEducation(0);
         document.getElementById('btnExplore').style.opacity = '0';
         document.getElementById('btnExplore').style.pointerEvents = 'none';
         
@@ -515,6 +519,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+const educationCards = Array.from(document.querySelectorAll('[data-education-index]'));
+const educationPrevious = document.querySelector('.education-arrow-prev');
+const educationNext = document.querySelector('.education-arrow-next');
+let activeEducationIndex = 0;
+
+function showEducation(index) {
+  activeEducationIndex = Math.max(0, Math.min(index, educationCards.length - 1));
+  educationCards.forEach((card, cardIndex) => {
+    card.classList.toggle('is-active', cardIndex === activeEducationIndex);
+  });
+  educationPrevious.disabled = activeEducationIndex === 0;
+  educationNext.disabled = activeEducationIndex === educationCards.length - 1;
+}
+
+educationPrevious.addEventListener('click', () => showEducation(activeEducationIndex - 1));
+educationNext.addEventListener('click', () => showEducation(activeEducationIndex + 1));
+showEducation(0);
 
 // Space themes engagement ripple
 document.getElementById('landingOverlay').addEventListener('click', (e) => {
