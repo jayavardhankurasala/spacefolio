@@ -20,8 +20,6 @@ const CONFIG = {
  * ════════════════════════════════════════════════
  */
 const ASSETS = {
-  landing: 'ezgif-7ea5ecfd07305554-jpg/image-2.jpg',
-  dive:    'ezgif-7ea5ecfd07305554-jpg/image-5.jpg',
   seq: [
     'ezgif-7ea5ecfd07305554-jpg/image-7.jpg',
     'ezgif-7ea5ecfd07305554-jpg/image-10.jpg',
@@ -31,7 +29,7 @@ const ASSETS = {
 };
 
 const loadedImages = new Map();
-let totalAssets = 2 + ASSETS.seq.length;
+let totalAssets = ASSETS.seq.length;
 let loadedCount = 0;
 
 function loadImg(url) {
@@ -200,9 +198,6 @@ let w, h;
 
 let currentScroll = 0;
 let targetScroll = 0;
-let isLanding = true;
-let isBreaching = false;
-let breachStartTime = 0;
 
 let mouseX = window.innerWidth / 2;
 let mouseY = window.innerHeight / 2;
@@ -246,84 +241,49 @@ function render(time) {
   ctx.fillStyle = '#010103';
   ctx.fillRect(0, 0, w, h);
 
-  if (isLanding) {
-    if (isBreaching) {
-      // Warp Sequence
-      const elapsed = time - breachStartTime;
-      const t = Math.min(1, elapsed / 1800);
-      const easeIn = t * t * t;
-      
-      const scaleStart = 1.0 + (easeIn * 6.0);
-      drawCover(loadedImages.get('landing'), scaleStart, 1 - easeIn);
-      
-      const diveT = Math.max(0, (t - 0.2) / 0.8);
-      const diveEase = diveT * diveT;
-      drawCover(loadedImages.get('dive'), 1.0 + diveEase * 3.0, diveEase);
-
-      updateAndDrawParticles(ctx, w, h, true, mouseX, mouseY); // Warping
-
-      if (t >= 0.95) {
-        document.getElementById('warpFlash').style.opacity = '1';
-      }
-      if (t >= 1) {
-        isLanding = false;
-        isBreaching = false;
-        document.getElementById('portfolioShell').classList.remove('hidden');
-        document.body.classList.remove('landing-active');
-        document.getElementById('landingOverlay').classList.add('hidden');
-        setTimeout(() => document.getElementById('warpFlash').style.opacity = '0', 100);
-      }
-    } else {
-      // Idle Landing
-      drawCover(loadedImages.get('landing'), 1.0, 1.0);
-      updateAndDrawParticles(ctx, w, h, false, mouseX, mouseY);
-    }
+  // Portfolio Scroll Sequence
+  const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  
+  // Inertial scroll lerp
+  currentScroll += (targetScroll - currentScroll) * 0.04;
+  const scrollVelocity = Math.abs(targetScroll - currentScroll);
+  
+  // Chromatic warp based on velocity
+  if (scrollVelocity > 5) {
+    canvas.style.filter = `drop-shadow(${Math.min(scrollVelocity*0.5, 10)}px 0 0 rgba(255,0,0,0.5)) drop-shadow(-${Math.min(scrollVelocity*0.5, 10)}px 0 0 rgba(0,255,255,0.5))`;
   } else {
-    // Portfolio Scroll Sequence
-    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    
-    // Inertial scroll lerp
-    currentScroll += (targetScroll - currentScroll) * 0.04;
-    const scrollVelocity = Math.abs(targetScroll - currentScroll);
-    
-    // Chromatic warp based on velocity
-    if (scrollVelocity > 5) {
-      canvas.style.filter = `drop-shadow(${Math.min(scrollVelocity*0.5, 10)}px 0 0 rgba(255,0,0,0.5)) drop-shadow(-${Math.min(scrollVelocity*0.5, 10)}px 0 0 rgba(0,255,255,0.5))`;
-    } else {
-      canvas.style.filter = 'none';
-    }
-
-    const progress = Math.max(0, Math.min(1, currentScroll / maxScroll));
-    const numScenes = ASSETS.seq.length;
-    const exactIndex = progress * (numScenes - 1);
-    const idx = Math.floor(exactIndex);
-    const frac = exactIndex - idx;
-
-    const imgA = loadedImages.get(`seq_${idx}`);
-    const imgB = loadedImages.get(`seq_${idx + 1}`);
-
-    // Audio reactive pulse on first scene (black hole)
-    const audioScale = (idx === 0) ? currentBassPulse : 0;
-
-    // Cross-dissolve logic
-    const scaleA = 1.0 + frac * 0.1 + audioScale;
-    const alphaA = Math.cos(frac * Math.PI * 0.5);
-    drawCover(imgA, scaleA, alphaA);
-
-    if (imgB && frac > 0) {
-      const scaleB = 1.0 + (1 - frac) * 0.1;
-      const alphaB = Math.sin(frac * Math.PI * 0.5);
-      drawCover(imgB, scaleB, alphaB);
-    }
-
-    updateAndDrawParticles(ctx, w, h, false, mouseX, mouseY);
+    canvas.style.filter = 'none';
   }
+
+  const progress = Math.max(0, Math.min(1, currentScroll / maxScroll));
+  const numScenes = ASSETS.seq.length;
+  const exactIndex = progress * (numScenes - 1);
+  const idx = Math.floor(exactIndex);
+  const frac = exactIndex - idx;
+
+  const imgA = loadedImages.get(`seq_${idx}`);
+  const imgB = loadedImages.get(`seq_${idx + 1}`);
+
+  // Audio reactive pulse on first scene (black hole)
+  const audioScale = (idx === 0) ? currentBassPulse : 0;
+
+  // Cross-dissolve logic
+  const scaleA = 1.0 + frac * 0.1 + audioScale;
+  const alphaA = Math.cos(frac * Math.PI * 0.5);
+  drawCover(imgA, scaleA, alphaA);
+
+  if (imgB && frac > 0) {
+    const scaleB = 1.0 + (1 - frac) * 0.1;
+    const alphaB = Math.sin(frac * Math.PI * 0.5);
+    drawCover(imgB, scaleB, alphaB);
+  }
+
+  updateAndDrawParticles(ctx, w, h, false, mouseX, mouseY);
 
   requestAnimationFrame(render);
 }
 
 window.addEventListener('scroll', () => {
-  if (isLanding) return;
   targetScroll = window.scrollY;
 }, { passive: true });
 
@@ -336,7 +296,6 @@ function initUI() {
   // Populate config
   const logoEl = document.getElementById('conf-logo'); if (logoEl) logoEl.textContent = CONFIG.shortName || "PORTFOLIO";
   const logoShortEl = document.getElementById('conf-logo-short'); if (logoShortEl) logoShortEl.textContent = CONFIG.shortName || "PORTFOLIO";
-  const nameLandingEl = document.getElementById('conf-name-landing'); if (nameLandingEl) nameLandingEl.innerHTML = `${CONFIG.name.split(' ')[0]}<br>${CONFIG.name.split(' ')[1] || ''}`;
   const nameHeroEl = document.getElementById('conf-name-hero'); if (nameHeroEl) nameHeroEl.textContent = CONFIG.name;
   const locEl = document.getElementById('conf-location'); if (locEl) locEl.textContent = CONFIG.location;
   const emailLinkEl = document.getElementById('conf-email-link'); if (emailLinkEl) emailLinkEl.href = `mailto:${CONFIG.email}`;
@@ -345,17 +304,6 @@ function initUI() {
   const linkedinEl = document.getElementById('conf-linkedin'); if (linkedinEl) linkedinEl.href = CONFIG.linkedInUrl;
   const twitterEl = document.getElementById('conf-twitter'); if (twitterEl) twitterEl.href = CONFIG.twitterUrl;
   const footerNameEl = document.getElementById('conf-footer-name'); if (footerNameEl) footerNameEl.textContent = CONFIG.name;
-
-  // Breach trigger
-  const btnExplore = document.getElementById('btnExplore');
-  btnExplore.addEventListener('click', () => {
-    isBreaching = true;
-    breachStartTime = performance.now();
-    document.getElementById('landingOverlay').classList.add('exploring');
-    showEducation(0);
-    btnExplore.style.opacity = '0';
-    btnExplore.style.pointerEvents = 'none';
-  });
 
   // Audio Toggle
   const btnAudio = document.getElementById('btnAudioToggle');
@@ -464,8 +412,6 @@ async function bootstrap() {
 
   // Load assets
   try {
-    loadedImages.set('landing', await loadImg(ASSETS.landing));
-    loadedImages.set('dive', await loadImg(ASSETS.dive));
     for (let i = 0; i < ASSETS.seq.length; i++) {
       loadedImages.set(`seq_${i}`, await loadImg(ASSETS.seq[i]));
     }
@@ -473,13 +419,9 @@ async function bootstrap() {
     console.error("Asset loading error", err);
   }
 
-  // Enable Entry
-  const btnExplore = document.getElementById('btnExplore');
-  btnExplore.textContent = "EXPLORE";
-  btnExplore.removeAttribute('disabled');
-  
   // Hide loader
-  document.getElementById('loader').classList.add('fade-out');
+  const loaderEl = document.getElementById('loader');
+  if (loaderEl) loaderEl.classList.add('fade-out');
 
   // Start Engine
   requestAnimationFrame(render);
@@ -487,37 +429,6 @@ async function bootstrap() {
 
 document.addEventListener('DOMContentLoaded', () => {
   bootstrap();
-  
-  let hasBreached = false;
-  // Handle landing navigation clicks to directly enter portfolio
-  document.querySelectorAll('.land-nav-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = link.getAttribute('href');
-      
-      if (!hasBreached) {
-        isBreaching = true;
-        hasBreached = true;
-        document.getElementById('landingOverlay').classList.add('exploring');
-        showEducation(0);
-        document.getElementById('btnExplore').style.opacity = '0';
-        document.getElementById('btnExplore').style.pointerEvents = 'none';
-        
-        document.getElementById('portfolioShell').classList.remove('hidden');
-        document.body.classList.remove('landing-active');
-        document.getElementById('landingOverlay').classList.add('hidden');
-        
-        setTimeout(() => document.getElementById('warpFlash').style.opacity = '0', 100);
-      }
-      
-      setTimeout(() => {
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 50);
-    });
-  });
 });
 
 const educationCards = Array.from(document.querySelectorAll('[data-education-index]'));
