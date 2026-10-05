@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Replace with the final production URL after deployment. -->
   <url>
-    <loc>REPLACE_WITH_FINAL_PRODUCTION_URL</loc>
+    <loc>https://jayavardhankurasala.vercel.app/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
 </urlset>
