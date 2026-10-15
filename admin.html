@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Portal | Jayavardhan Kurasala Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030407;
+      --card-bg: rgba(18, 20, 29, 0.85);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --accent: #a78bfa;
+      --accent-glow: rgba(167, 139, 250, 0.25);
+      --accent2: #38bdf8;
+      --success: #34d399;
+      --danger: #f87171;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .cosmic-bg {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.08), transparent 40%),
+                  radial-gradient(circle at 85% 80%, rgba(167, 139, 250, 0.08), transparent 40%),
+                  #030407;
+      z-index: -1;
+      pointer-events: none;
+    }
+    header.admin-bar {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(16px, 4vw, 36px);
+      background: rgba(8, 10, 16, 0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+    }
+    .brand-badge {
+      font-size: 0.65rem;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #030407;
+    }
+    .btn-primary:hover {
+      background: #c4b5fd;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--card-border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-danger {
+      background: rgba(248, 113, 113, 0.15);
+      border-color: rgba(248, 113, 113, 0.4);
+      color: var(--danger);
+    }
+    .btn-danger:hover {
+      background: var(--danger);
+      color: #030407;
+    }
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: clamp(16px, 4vw, 36px);
+      flex: 1;
+    }
+
+    /* Auth Screen */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 4, 7, 0.95);
+      backdrop-filter: blur(24px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .auth-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: clamp(24px, 5vw, 40px);
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--accent-glow);
+      text-align: center;
+      animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .auth-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      color: var(--accent);
+    }
+    .auth-card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+    .auth-card p {
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-bottom: 24px;
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="url"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+      background: rgba(255, 255, 255, 0.07);
+    }
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .auth-alert {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .auth-alert.error {
+      background: rgba(248, 113, 113, 0.15);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      display: block;
+    }
+    .auth-alert.info {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid var(--accent2);
+      color: var(--accent2);
+      display: block;
+    }
+
+    /* Admin Content */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 12px;
+      margin-bottom: 28px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .tab-btn.active {
+      color: #030407;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grid cards */
+    .panel-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: clamp(20px, 3vw, 28px);
+      margin-bottom: 24px;
+      backdrop-filter: blur(12px);
+    }
+    .panel-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .panel-desc {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    /* Section Toggles */
+    .section-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+    .section-toggle-row:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .section-toggle-info h4 {
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+    .section-toggle-info p {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    /* Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 34px;
+      transition: 0.3s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    input:checked + .slider {
+      background-color: var(--success);
+    }
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    /* Project items list */
+    .project-item-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .project-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+    }
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      border: 1px solid var(--accent);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast-msg.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 640px) {
+      .tabs-nav { gap: 4px; }
+      .tab-btn { padding: 8px 12px; font-size: 0.8rem; }
+      .brand-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cosmic-bg"></div>
+
+  <!-- AUTHENTICATION DIALOG -->
+  <div id="authModal" class="auth-overlay">
+    <div class="auth-card">
+      <div class="auth-icon">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <h2>Cosmic Admin Portal</h2>
+      <p>Enter the security password to unlock live portfolio management, section toggles, and detail edits.</p>
+      
+      <div id="authAlert" class="auth-alert"></div>
+
+      <form id="authForm" onsubmit="handleAuth(event)">
+        <div class="form-group">
+          <label for="adminPass">Master Password</label>
+          <input type="password" id="adminPass" required autocomplete="current-password" placeholder="Enter admin password">
+        </div>
+        <button type="submit" id="btnUnlock" class="btn btn-primary" style="width: 100%; padding: 12px;">
+          Unlock Admin Terminal
+        </button>
+      </form>
+      <div style="margin-top: 18px; font-size: 0.75rem; color: var(--muted);">
+        <a href="/" style="color: var(--accent); text-decoration: none;">← Return to Spacefolio</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN ADMIN CONSOLE -->
+  <header class="admin-bar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
+        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+        <polyline points="2 17 12 22 22 17"/>
+        <polyline points="2 12 12 17 22 12"/>
+      </svg>
+      <span>Spacefolio Control</span>
+      <span class="brand-badge">Version 2 Master</span>
+    </div>
+    <div class="nav-actions">
+      <a href="/" class="btn btn-outline" target="_blank" rel="noopener">
+        <span>View Site ↗</span>
+      </a>
+      <button class="btn btn-outline" onclick="logoutAdmin()">Lock Portal</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-tab="detailsTab" onclick="switchTab('detailsTab')">👤 Personal Details</button>
+      <button class="tab-btn" data-tab="sectionsTab" onclick="switchTab('sectionsTab')">👁️ Section Visibility</button>
+      <button class="tab-btn" data-tab="projectsTab" onclick="switchTab('projectsTab')">🚀 Projects &amp; Work</button>
+      <button class="tab-btn" data-tab="securityTab" onclick="switchTab('securityTab')">🔐 Security &amp; Backup</button>
+    </div>
+
+    <!-- TAB 1: DETAILS -->
+    <section id="detailsTab" class="tab-content active">
+      <div class="panel-card">
+        <h3 class="panel-title">General Identity &amp; Roles</h3>
+        <p class="panel-desc">Modify personal titles, bio, and hero information displayed on your portfolio.</p>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="confName">Full Name</label>
+            <input type="text" id="confName">
+          </div>
+          <div class="form-group">
+            <label for="confShortName">Short Name (Navbar Logo)</label>
+            <input type="text" id="confShortName">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="confRole">Headline / Role</label>
+            <input type="text" id="confRole">
+          </div>
+          <div class="form-group">
+            <label for="confLocation">Location</label>
+            <input type="text" id="confLocation">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confAbout">About Me Biography</label>
+          <textarea id="confAbout" rows="5"></textarea>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <h3 class="panel-title">Contact &amp; Social Links</h3>
+        <p class="panel-desc">Direct lines, messaging, and developer profiles.</p>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="confEmail">Primary Email</label>
+            <input type="email" id="confEmail">
+          </div>
+          <div class="form-group">
+            <label for="confPhone">Phone / WhatsApp Number (with country code)</label>
+            <input type="text" id="confPhone">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="confGithub">GitHub URL</label>
+            <input type="url" id="confGithub">
+          </div>
+          <div class="form-group">
+            <label for="confLinkedin">LinkedIn URL</label>
+            <input type="url" id="confLinkedin">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="confLeetcode">LeetCode URL</label>
+            <input type="url" id="confLeetcode">
+          </div>
+          <div class="form-group">
+            <label for="confGfg">GeeksforGeeks URL</label>
+            <input type="url" id="confGfg">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confCodechef">CodeChef URL</label>
+          <input type="url" id="confCodechef">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 18px;">
+          <button class="btn btn-primary" onclick="saveDetails()">💾 Save Details</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SECTION VISIBILITY -->
+    <section id="sectionsTab" class="tab-content">
+      <div class="panel-card">
+        <h3 class="panel-title">Active Section Toggles</h3>
+        <p class="panel-desc">Deactivate any section to hide it completely from public display until you turn it back on.</p>
+
+        <div class="section-toggle-row">
+          <div class="section-toggle-info">
+            <h4>Hero / Introduction Section (#hero)</h4>
+            <p>Main greeting, cosmic banner, and headline CTA.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggleHero" onchange="updateSectionVisibility()">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="section-toggle-row">
+          <div class="section-toggle-info">
+            <h4>About Me Section (#about)</h4>
+            <p>Portrait photo, bio description, and animated name typewriter.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggleAbout" onchange="updateSectionVisibility()">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="section-toggle-row">
+          <div class="section-toggle-info">
+            <h4>Academic Journey / Education (#education)</h4>
+            <p>Interactive timeline cards of your degrees and schools.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggleEducation" onchange="updateSectionVisibility()">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="section-toggle-row">
+          <div class="section-toggle-info">
+            <h4>Selected Work &amp; Projects (#work)</h4>
+            <p>Project showcase cards and case study exploration modals.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggleWork" onchange="updateSectionVisibility()">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="section-toggle-row">
+          <div class="section-toggle-info">
+            <h4>3D Skills Universe (#skills)</h4>
+            <p>Interactive rotating orbital spheres of core programming, web stack, and developer tools.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggleSkills" onchange="updateSectionVisibility()">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="section-toggle-row">
+          <div class="section-toggle-info">
+            <h4>Direct Contact Section (#contact)</h4>
+            <p>WhatsApp, phone dialer, email button, and coding profiles.</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="toggleContact" onchange="updateSectionVisibility()">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 18px;">
+          <button class="btn btn-primary" onclick="saveSectionVisibility()">💾 Save Visibility Settings</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: PROJECTS -->
+    <section id="projectsTab" class="tab-content">
+      <div class="panel-card">
+        <h3 class="panel-title">Add New Project</h3>
+        <p class="panel-desc">Add a project to showcase in the Selected Work gallery and case study viewer.</p>
+        
+        <form id="newProjectForm" onsubmit="addNewProject(event)">
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="projTitle">Project Title</label>
+              <input type="text" id="projTitle" required placeholder="e.g. Space Odyssey">
+            </div>
+            <div class="form-group">
+              <label for="projSubtitle">Subtitle / Category</label>
+              <input type="text" id="projSubtitle" required placeholder="e.g. AI-Powered Autonomous Rover">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="projBrief">Brief Summary (Shown on Card)</label>
+            <input type="text" id="projBrief" required placeholder="Short 1-line overview of the project...">
+          </div>
+
+          <div class="form-group">
+            <label for="projDesc">Full Case Study / Workflow</label>
+            <textarea id="projDesc" required placeholder="Explain the problem, technology stack, architecture, and results..."></textarea>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="projTags">Tech Stack Tags (Comma separated)</label>
+              <input type="text" id="projTags" placeholder="React, Node.js, Python, TensorFlow">
+            </div>
+            <div class="form-group">
+              <label for="projImage">Screenshot / Visual URL</label>
+              <input type="text" id="projImage" placeholder="ezgif-7ea5ecfd07305554-jpg/mypic.jpeg or https://...">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="projGithub">GitHub Repository Link (Optional)</label>
+              <input type="url" id="projGithub" placeholder="https://github.com/...">
+            </div>
+            <div class="form-group">
+              <label for="projDemo">Live Demo / Walkthrough Link (Optional)</label>
+              <input type="url" id="projDemo" placeholder="https://...">
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn btn-primary">➕ Add Project</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel-card">
+        <h3 class="panel-title">Active Projects</h3>
+        <p class="panel-desc">Current projects displayed on your portfolio. You can delete custom projects or toggle them.</p>
+        <div id="projectsList"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: SECURITY & BACKUP -->
+    <section id="securityTab" class="tab-content">
+      <div class="panel-card">
+        <h3 class="panel-title">Change Master Admin Password</h3>
+        <p class="panel-desc">Update the password required to unlock this admin section.</p>
+
+        <form id="changePassForm" onsubmit="handleChangePassword(event)" style="max-width: 480px;">
+          <div class="form-group">
+            <label for="oldPass">Current Password</label>
+            <input type="password" id="oldPass" required>
+          </div>
+          <div class="form-group">
+            <label for="newPass">New Password</label>
+            <input type="password" id="newPass" required minlength="8">
+          </div>
+          <div class="form-group">
+            <label for="confirmNewPass">Confirm New Password</label>
+            <input type="password" id="confirmNewPass" required minlength="8">
+          </div>
+          <button type="submit" class="btn btn-primary">Update Password</button>
+        </form>
+      </div>
+
+      <div class="panel-card">
+        <h3 class="panel-title">Data Backup &amp; Reset</h3>
+        <p class="panel-desc">Export your portfolio configuration to a JSON file, import a backup, or restore original defaults.</p>
+        
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button class="btn btn-outline" onclick="exportConfig()">📥 Export Backup (JSON)</button>
+          <label class="btn btn-outline" style="cursor: pointer;">
+            📤 Import Backup
+            <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="importConfig(event)">
+          </label>
+          <button class="btn btn-danger" onclick="resetToDefaults()">⚠️ Reset to Factory Defaults</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast-msg"></div>
+
+  <script>
+    // SHA-256 Hashing using Web Crypto API
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Default configuration for initial population
+    const DEFAULT_CONFIG = {
+      name: "Jayavardhan Kurasala",
+      shortName: "JK",
+      role: "Computer Science Engineering Student & Developer",
+      location: "Tadepalligudem",
+      aboutText: "I'm Jayavardhan Kurasala, a Computer Science Engineering student who enjoys turning practical problems into clear, usable software. I work across web development, interface design, and programming fundamentals, and I learn best by building, testing, and refining ideas. My recent projects include MediKiosk, a healthcare intake concept, and a prototype for Kochi Metro train-induction planning. I'm interested in how thoughtful software can make everyday tasks more accessible and organized. I value collaboration, curiosity, and honest engineering: a prototype should communicate a concept, while a production system needs reliable data, security, testing, and validation. I'm continuing to strengthen my programming, full-stack development, and problem-solving skills by building digital experiences with a clear purpose.",
+      email: "jayavardhan.kurasala@gmail.com",
+      phone: "+917815902369",
+      githubUrl: "https://github.com/jayavardhankurasala",
+      linkedInUrl: "https://www.linkedin.com/in/jayavardhan-kurasala-2834b53ba?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      leetcodeUrl: "https://leetcode.com/u/Jayavardhan_kurasala/",
+      gfgUrl: "https://www.geeksforgeeks.org/profile/jayavardhahjs3?tab=overview",
+      codechefUrl: "https://www.codechef.com/users/u24a81a05f9",
+      sections: {
+        hero: true,
+        about: true,
+        education: true,
+        work: true,
+        skills: true,
+        contact: true
+      },
+      customProjects: []
+    };
+
+    // Pre-calculated SHA-256 hash for default password: "admin@spacefolio2026"
+    // sha256("admin@spacefolio2026") = 50207238217bb68045e75da901962383c27e4e13511b0bbcfbcda0bcdd7dfa32
+    const DEFAULT_PASS_HASH = "50207238217bb68045e75da901962383c27e4e13511b0bbcfbcda0bcdd7dfa32";
+
+    function getConfig() {
+      try {
+        const stored = localStorage.getItem('spacefolio_config');
+        return stored ? Object.assign({}, DEFAULT_CONFIG, JSON.parse(stored)) : DEFAULT_CONFIG;
+      } catch (e) {
+        return DEFAULT_CONFIG;
+      }
+    }
+
+    function saveConfigToStorage(cfg) {
+      localStorage.setItem('spacefolio_config', JSON.stringify(cfg));
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      toast.textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Rate limiting for auth
+    let failedAttempts = parseInt(sessionStorage.getItem('admin_failed_attempts') || '0', 10);
+    let lockUntil = parseInt(sessionStorage.getItem('admin_lock_until') || '0', 10);
+
+    async function handleAuth(e) {
+      e.preventDefault();
+      const now = Date.now();
+      const alertEl = document.getElementById('authAlert');
+
+      if (now < lockUntil) {
+        const secs = Math.ceil((lockUntil - now) / 1000);
+        alertEl.textContent = `Too many failed attempts. Locked for ${secs}s.`;
+        alertEl.className = 'auth-alert error';
+        return;
+      }
+
+      const inputPass = document.getElementById('adminPass').value;
+      const inputHash = await sha256(inputPass);
+      const savedHash = localStorage.getItem('spacefolio_admin_hash') || DEFAULT_PASS_HASH;
+
+      if (inputHash === savedHash) {
+        sessionStorage.setItem('admin_authenticated', 'true');
+        sessionStorage.removeItem('admin_failed_attempts');
+        sessionStorage.removeItem('admin_lock_until');
+        document.getElementById('authModal').style.display = 'none';
+        initAdminData();
+        showToast('🔓 Terminal unlocked successfully.');
+      } else {
+        failedAttempts++;
+        sessionStorage.setItem('admin_failed_attempts', failedAttempts.toString());
+        if (failedAttempts >= 5) {
+          lockUntil = Date.now() + 60000; // 1 minute lockout
+          sessionStorage.setItem('admin_lock_until', lockUntil.toString());
+          alertEl.textContent = 'Too many failed attempts. Terminal locked for 60 seconds.';
+        } else {
+          alertEl.textContent = `Incorrect password. ${5 - failedAttempts} attempts remaining.`;
+        }
+        alertEl.className = 'auth-alert error';
+      }
+    }
+
+    function checkAuthOnLoad() {
+      const isAuth = sessionStorage.getItem('admin_authenticated') === 'true';
+      if (isAuth) {
+        document.getElementById('authModal').style.display = 'none';
+        initAdminData();
+      } else {
+        document.getElementById('authModal').style.display = 'flex';
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('admin_authenticated');
+      window.location.reload();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabId);
+      });
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.toggle('active', tab.id === tabId);
+      });
+    }
+
+    function initAdminData() {
+      const cfg = getConfig();
+      
+      // Details inputs
+      document.getElementById('confName').value = cfg.name || '';
+      document.getElementById('confShortName').value = cfg.shortName || '';
+      document.getElementById('confRole').value = cfg.role || '';
+      document.getElementById('confLocation').value = cfg.location || '';
+      document.getElementById('confAbout').value = cfg.aboutText || '';
+      document.getElementById('confEmail').value = cfg.email || '';
+      document.getElementById('confPhone').value = cfg.phone || '';
+      document.getElementById('confGithub').value = cfg.githubUrl || '';
+      document.getElementById('confLinkedin').value = cfg.linkedInUrl || '';
+      document.getElementById('confLeetcode').value = cfg.leetcodeUrl || '';
+      document.getElementById('confGfg').value = cfg.gfgUrl || '';
+      document.getElementById('confCodechef').value = cfg.codechefUrl || '';
+
+      // Section visibility
+      const sec = cfg.sections || DEFAULT_CONFIG.sections;
+      document.getElementById('toggleHero').checked = sec.hero !== false;
+      document.getElementById('toggleAbout').checked = sec.about !== false;
+      document.getElementById('toggleEducation').checked = sec.education !== false;
+      document.getElementById('toggleWork').checked = sec.work !== false;
+      document.getElementById('toggleSkills').checked = sec.skills !== false;
+      document.getElementById('toggleContact').checked = sec.contact !== false;
+
+      renderProjectsList();
+    }
+
+    function saveDetails() {
+      const cfg = getConfig();
+      cfg.name = document.getElementById('confName').value.trim();
+      cfg.shortName = document.getElementById('confShortName').value.trim();
+      cfg.role = document.getElementById('confRole').value.trim();
+      cfg.location = document.getElementById('confLocation').value.trim();
+      cfg.aboutText = document.getElementById('confAbout').value.trim();
+      cfg.email = document.getElementById('confEmail').value.trim();
+      cfg.phone = document.getElementById('confPhone').value.trim();
+      cfg.githubUrl = document.getElementById('confGithub').value.trim();
+      cfg.linkedInUrl = document.getElementById('confLinkedin').value.trim();
+      cfg.leetcodeUrl = document.getElementById('confLeetcode').value.trim();
+      cfg.gfgUrl = document.getElementById('confGfg').value.trim();
+      cfg.codechefUrl = document.getElementById('confCodechef').value.trim();
+
+      saveConfigToStorage(cfg);
+      showToast('✅ Personal details saved successfully.');
+    }
+
+    function updateSectionVisibility() {
+      saveSectionVisibility();
+    }
+
+    function saveSectionVisibility() {
+      const cfg = getConfig();
+      cfg.sections = {
+        hero: document.getElementById('toggleHero').checked,
+        about: document.getElementById('toggleAbout').checked,
+        education: document.getElementById('toggleEducation').checked,
+        work: document.getElementById('toggleWork').checked,
+        skills: document.getElementById('toggleSkills').checked,
+        contact: document.getElementById('toggleContact').checked
+      };
+      saveConfigToStorage(cfg);
+      showToast('👁️ Section visibility rules updated.');
+    }
+
+    function renderProjectsList() {
+      const cfg = getConfig();
+      const listEl = document.getElementById('projectsList');
+      listEl.innerHTML = '';
+
+      // Standard Projects
+      const builtins = [
+        { id: 'medikiosk', title: 'MediKiosk', subtitle: 'Automated Healthcare Terminal', brief: 'A kiosk concept for patient check-in and preliminary diagnostics.' },
+        { id: 'kochimetro', title: 'Kochi Metro TIPS', subtitle: 'SIH 2025 · Trainset Planning', brief: 'A working browser prototype for demonstrating KMRL train-readiness planning.' },
+        { id: 'jarvis', title: 'Jarvis Assistant', subtitle: 'Voice-Activated AI Companion', brief: 'A voice interface for desktop actions and everyday automation.' }
+      ];
+
+      builtins.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'project-item-card';
+        item.innerHTML = `
+          <div class="project-item-header">
+            <div>
+              <strong>${p.title}</strong>
+              <div style="font-size: 0.8rem; color: var(--muted);">${p.subtitle}</div>
+            </div>
+            <span class="badge" style="background: rgba(56, 189, 248, 0.15); color: var(--accent2);">Core Project</span>
+          </div>
+          <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">${p.brief}</p>
+        `;
+        listEl.appendChild(item);
+      });
+
+      // Custom Added Projects
+      const customList = cfg.customProjects || [];
+      customList.forEach((cp, idx) => {
+        const item = document.createElement('div');
+        item.className = 'project-item-card';
+        item.innerHTML = `
+          <div class="project-item-header">
+            <div>
+              <strong>${cp.title}</strong>
+              <div style="font-size: 0.8rem; color: var(--muted);">${cp.subtitle}</div>
+            </div>
+            <div style="display:flex; gap: 8px; align-items: center;">
+              <span class="badge" style="background: rgba(167, 139, 250, 0.15); color: var(--accent);">Custom</span>
+              <button class="btn btn-danger" style="padding: 4px 10px; font-size: 0.75rem;" onclick="deleteCustomProject(${idx})">Delete</button>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">${cp.brief}</p>
+          <div class="project-badges">
+            ${(cp.tags || []).map(t => `<span class="badge">${t}</span>`).join('')}
+          </div>
+        `;
+        listEl.appendChild(item);
+      });
+    }
+
+    function addNewProject(e) {
+      e.preventDefault();
+      const cfg = getConfig();
+      if (!cfg.customProjects) cfg.customProjects = [];
+
+      const tags = document.getElementById('projTags').value
+        .split(',')
+        .map(t => t.trim())
+        .filter(Boolean);
+
+      const newProj = {
+        id: 'custom_' + Date.now(),
+        title: document.getElementById('projTitle').value.trim(),
+        subtitle: document.getElementById('projSubtitle').value.trim(),
+        brief: document.getElementById('projBrief').value.trim(),
+        desc: document.getElementById('projDesc').value.trim(),
+        tags: tags,
+        image: document.getElementById('projImage').value.trim(),
+        github: document.getElementById('projGithub').value.trim(),
+        demo: document.getElementById('projDemo').value.trim()
+      };
+
+      cfg.customProjects.push(newProj);
+      saveConfigToStorage(cfg);
+      document.getElementById('newProjectForm').reset();
+      renderProjectsList();
+      showToast('🚀 New project added to showcase.');
+    }
+
+    function deleteCustomProject(index) {
+      if (!confirm('Are you sure you want to remove this project?')) return;
+      const cfg = getConfig();
+      cfg.customProjects.splice(index, 1);
+      saveConfigToStorage(cfg);
+      renderProjectsList();
+      showToast('🗑️ Project removed.');
+    }
+
+    async function handleChangePassword(e) {
+      e.preventDefault();
+      const oldPass = document.getElementById('oldPass').value;
+      const newPass = document.getElementById('newPass').value;
+      const confirmPass = document.getElementById('confirmNewPass').value;
+
+      if (newPass !== confirmPass) {
+        alert('New passwords do not match.');
+        return;
+      }
+
+      const currentSavedHash = localStorage.getItem('spacefolio_admin_hash') || DEFAULT_PASS_HASH;
+      const oldHash = await sha256(oldPass);
+
+      if (oldHash !== currentSavedHash) {
+        alert('Current password verification failed.');
+        return;
+      }
+
+      const newHash = await sha256(newPass);
+      localStorage.setItem('spacefolio_admin_hash', newHash);
+      document.getElementById('changePassForm').reset();
+      showToast('🔑 Master admin password updated successfully.');
+    }
+
+    function exportConfig() {
+      const cfg = getConfig();
+      const blob = new Blob([JSON.stringify(cfg, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `spacefolio-config-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📥 Backup exported.');
+    }
+
+    function importConfig(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          if (typeof parsed === 'object') {
+            saveConfigToStorage(parsed);
+            initAdminData();
+            showToast('📤 Backup imported successfully.');
+          }
+        } catch (err) {
+          alert('Invalid backup JSON format.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetToDefaults() {
+      if (!confirm('Warning: This will restore all settings and details to factory default. Continue?')) return;
+      localStorage.removeItem('spacefolio_config');
+      localStorage.removeItem('spacefolio_admin_hash');
+      initAdminData();
+      showToast('🔄 Restored factory default settings.');
+    }
+
+    document.addEventListener('DOMContentLoaded', checkAuthOnLoad);
+  </script>
+</body>
+</html>
