@@ -1,0 +1,20 @@
+{
+  "name": "spacefolio",
+  "version": "2.0.0",
+  "description": "Jayavardhan Kurasala Portfolio - Version 2 Master with Admin Portal & Cosmic Theme",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "portfolio",
+    "developer",
+    "spacefolio",
+    "threejs",
+    "canvas",
+    "web"
+  ],
+  "author": "Jayavardhan Kurasala",
+  "license": "MIT"
+}
