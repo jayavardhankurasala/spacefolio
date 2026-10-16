@@ -178,52 +178,7 @@ button { border: none; background: none; cursor: pointer; font: inherit; }
   font-family: 'Space Grotesk', monospace; 
 }
 
-/* ── Side Docked Admin Button ── */
-.side-admin-dock {
-  position: fixed;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 95;
-}
-.side-admin-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(15, 17, 26, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(167, 139, 250, 0.3);
-  border-right: none;
-  padding: 10px 14px 10px 12px;
-  border-radius: 12px 0 0 12px;
-  color: var(--accent);
-  text-decoration: none;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(167, 139, 250, 0.2);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.side-admin-btn:hover {
-  background: rgba(25, 28, 42, 0.95);
-  border-color: var(--accent);
-  color: #fff;
-  transform: translateX(-4px);
-  box-shadow: -6px 0 25px rgba(167, 139, 250, 0.4);
-}
-.side-admin-btn svg {
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
-}
-.side-admin-btn:hover svg {
-  transform: rotate(20deg) scale(1.1);
-}
-.side-admin-label {
-  display: inline-block;
-  white-space: nowrap;
-}
+
 
 /* Section visibility toggle utility */
 .section-hidden {
@@ -1111,20 +1066,7 @@ input:focus, textarea:focus { border-color: var(--accent); background: rgba(0,0,
     min-height: 44px;
   }
 
-  /* Side Admin Dock on Mobile */
-  .side-admin-dock {
-    top: auto;
-    bottom: 20px;
-    right: 16px;
-    transform: none;
-  }
-  .side-admin-btn {
-    border-radius: 999px;
-    border-right: 1px solid rgba(167, 139, 250, 0.4);
-    padding: 10px 16px;
-    background: rgba(15, 17, 26, 0.92);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 15px rgba(167, 139, 250, 0.3);
-  }
+
 
   /* Project Details Modal on Mobile */
   .project-detail-modal {

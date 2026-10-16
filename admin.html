@@ -786,9 +786,9 @@
       customProjects: []
     };
 
-    // Pre-calculated SHA-256 hash for default password: "admin@spacefolio2026"
-    // sha256("admin@spacefolio2026") = 50207238217bb68045e75da901962383c27e4e13511b0bbcfbcda0bcdd7dfa32
-    const DEFAULT_PASS_HASH = "50207238217bb68045e75da901962383c27e4e13511b0bbcfbcda0bcdd7dfa32";
+    // Pre-calculated SHA-256 hash for password: "@jaya"
+    // sha256("@jaya") = 319ce230405ca5abc20ca0a307a5be9381f299bb772e032c246fb89803dc13b2
+    const DEFAULT_PASS_HASH = "319ce230405ca5abc20ca0a307a5be9381f299bb772e032c246fb89803dc13b2";
 
     function getConfig() {
       try {
@@ -828,9 +828,12 @@
 
       const inputPass = document.getElementById('adminPass').value;
       const inputHash = await sha256(inputPass);
-      const savedHash = localStorage.getItem('spacefolio_admin_hash') || DEFAULT_PASS_HASH;
+      const savedHash = localStorage.getItem('spacefolio_admin_hash');
 
-      if (inputHash === savedHash) {
+      // Accepts @jaya or any newly updated custom password
+      const isMatch = (inputHash === DEFAULT_PASS_HASH) || (savedHash && inputHash === savedHash);
+
+      if (isMatch) {
         sessionStorage.setItem('admin_authenticated', 'true');
         sessionStorage.removeItem('admin_failed_attempts');
         sessionStorage.removeItem('admin_lock_until');
